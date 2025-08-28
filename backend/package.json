@@ -1,0 +1,11 @@
+{
+  "name": "users-catalog-pro-server",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}

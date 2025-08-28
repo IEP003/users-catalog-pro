@@ -52,11 +52,12 @@ export function useToggleActive() {
       await qc.cancelQueries({ queryKey: keyUser });
       await qc.cancelQueries({ predicate: query => Array.isArray(query.queryKey) && query.queryKey[0] === 'users' });
 
-      const previousUser = qc.getQueryData(keyUser);
-      const previousLists = qc.getQueriesData({ predicate: query => Array.isArray(query.queryKey) && query.queryKey[0] === 'users' });
+      const previousUser = qc.getQueryData<User>(keyUser);
+      const previousLists = qc.getQueriesData<{items: User[]; total: number}>({ predicate: query => Array.isArray(query.queryKey) && query.queryKey[0] === 'users' });
 
       // optimistic update user
-      qc.setQueryData(keyUser, (old: any) => (old ? { ...old, active } : old));
+      qc.setQueryData(keyUser, (old: any) =>
+          old ? { ...old, active } : old);
 
       // optimistic update all lists
       previousLists.forEach(([queryKey, data]: any) => {
@@ -90,6 +91,6 @@ export function useToggleActive() {
     onSettled: (_data, _err, variables) => {
       qc.invalidateQueries({ predicate: query => Array.isArray(query.queryKey) && (query.queryKey[0] === 'users' || query.queryKey[0] === 'user') });
     },
-    retry: 1,
+    retry: 0,
   });
 }

@@ -18,7 +18,7 @@ export default function UsersPage() {
 
   // open detail by route /users/:id (we have route mapping to this same component)
   const openUserId = params.id; // will be defined when route is /users/:id
-  const userDetailQuery = openUserId ? useUser(openUserId) : undefined;
+  const userDetailQuery = useUser(openUserId);
 
   function goToPage(p: number) {
     searchParams.set('page', String(p));
@@ -32,20 +32,48 @@ export default function UsersPage() {
     setSearchParams(searchParams);
   }
 
+  function onLimitChange(newLimit: number) {
+    searchParams.set('limit', String(newLimit));
+    searchParams.set('page', '1'); 
+    setSearchParams(searchParams);
+  }
+
+  function onToggleSort() {
+    const [field, dir] = sort.split(':');
+    const newDir = dir === 'asc' ? 'desc' : 'asc';
+    searchParams.set('sort', `${field}:${newDir}`);
+    setSearchParams(searchParams);
+  }
+
+
   return (
     <div className="p-4">
       <h1 className="text-2xl mb-4">Users Catalog Pro</h1>
-
-      <div className="mb-4">
+      <div className="flex items-center gap-4 mb-4">
         <input
           defaultValue={search}
           placeholder="Search name, email, city, department"
           onKeyDown={e => {
             if (e.key === 'Enter') onSearch((e.target as HTMLInputElement).value);
           }}
+          className="border rounded px-2 py-1"
         />
-      </div>
-
+        <select
+          value={limit}
+          onChange={e => onLimitChange(Number(e.target.value))}
+          className="border rounded px-2 py-1"
+        >
+          <option value={10}>10 / page</option>
+          <option value={25}>25 / page</option>
+          <option value={50}>50 / page</option>
+        </select>
+        <button
+          onClick={onToggleSort}
+          className="border rounded px-2 py-1"
+        >
+          Sort by CreatedAt ({sort.endsWith('asc') ? 'ASC' : 'DESC'})
+        </button>
+      </div>      
       <UsersList
         users={data?.items ?? []}
         total={data?.total ?? 0}
