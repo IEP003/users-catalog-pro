@@ -1,6 +1,7 @@
 import React from 'react';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { User } from '../types/user';
+import './UserDetailDrawer.css'
 
 type Props = {
   id: string;
@@ -12,16 +13,13 @@ export default function UserDetailDrawer({ id, userQuery, onClose }: Props) {
   const { data: user, isLoading, isError } = userQuery;
 
   return (
-    <div style={{
-      position: 'fixed', top: 0, right: 0, height: '100%', width: '420px',
-      background: 'white', boxShadow: '-4px 0 12px rgba(0,0,0,0.1)', padding: '16px', zIndex: 50
-    }}>
-      <button onClick={onClose} style={{ float: 'right' }}>Close</button>
+    <div className="user-detail-panel">
+      <button onClick={onClose} className="user-detail-close">Close</button>
       <h2>User detail — {id}</h2>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error loading user</div>}
+      {isLoading && <div className="user-detail-loading">Loading...</div>}
+      {isError && <div className="user-detail-error">Error loading user</div>}
       {user && (
-        <div>
+        <div className="user-detail-content">
           <p><strong>{user.name}</strong></p>
           <p>{user.email}</p>
           <p>City: {user.city}</p>

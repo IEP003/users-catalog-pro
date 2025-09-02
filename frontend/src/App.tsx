@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import UsersPage from './pages/UsersPage';
+import './App.css';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<UsersPage />} />
         <Route path="/users/:id" element={<UsersPage />} />
-        <Route path="*" element={<div>App</div>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   )

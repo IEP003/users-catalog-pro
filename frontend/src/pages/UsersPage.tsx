@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import { useUsers, useUser } from '../hooks/useUsers';
 import UsersList from '../components/UsersList';
 import UserDetailDrawer from '../components/UserDetailDrawer';
+import './UsersPage.css';
 
 export default function UsersPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -70,28 +71,23 @@ export default function UsersPage() {
 
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl mb-4">Users Catalog Pro</h1>
-      <div className="flex items-center gap-4 mb-4">
+    <div className="user-catalog">
+      <h1>Users Catalog Pro</h1>
+      <div className="user-contols">
         <input
           value={searchInput}
           onChange={e => setSearchInput(e.target.value)}
           placeholder="Search name, email, city, department"
-          className="border rounded px-2 py-1"
         />
         <select
           value={limit}
           onChange={e => onLimitChange(Number(e.target.value))}
-          className="border rounded px-2 py-1"
         >
           <option value={10}>10 / page</option>
           <option value={25}>25 / page</option>
           <option value={50}>50 / page</option>
         </select>
-        <button
-          onClick={onToggleSort}
-          className="border rounded px-2 py-1"
-        >
+        <button onClick={onToggleSort}>
           Sort by CreatedAt ({sort.endsWith('asc') ? 'ASC' : 'DESC'})
         </button>
       </div>      

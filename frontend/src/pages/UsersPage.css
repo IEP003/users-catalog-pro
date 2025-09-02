@@ -1,0 +1,62 @@
+.user-catalog {
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.user-catalog h1 {
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.user-contols {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.user-controls input,
+.user-controls select {
+  padding: 6px 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-controls input:focus,
+.user-controls select:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 3px rgba(26, 115, 232, 0.3);
+}
+
+.user-controls button {
+  padding: 6px 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.user-controls button:hover {
+  background-color: #f5f5f5;
+  border-color: rgba(0,0,0,0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  .user-catalog {
+    color: #333;
+    background-color: #ffffff;
+  }
+  .user-controls input,
+  .user-controls select,
+  .user-controls button {
+    border-color: rgba(0,0,0,0.1);
+  }
+}
+
