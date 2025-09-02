@@ -16,33 +16,48 @@ export default function UsersPage() {
 
   const { data, isLoading, isError } = useUsers({ page, limit, search, sort });
 
-  // open detail by route /users/:id (we have route mapping to this same component)
-  const openUserId = params.id; // will be defined when route is /users/:id
-  const userDetailQuery = useUser(openUserId);
+  
+  const openUserId = params.id ?? null; 
+  const userDetailQuery = useUser(openUserId, { 
+    enabled: !!openUserId
+   });
 
   function goToPage(p: number) {
-    searchParams.set('page', String(p));
-    setSearchParams(searchParams);
+    setSearchParams(prev => {
+      const sp = new URLSearchParams(prev);
+      sp.set('page', String(p));
+      return sp;
+    });
   }
 
   function onSearch(q: string) {
-    if (q) searchParams.set('search', q);
-    else searchParams.delete('search');
-    searchParams.set('page', '1');
-    setSearchParams(searchParams);
+    setSearchParams(prev => {
+      const sp = new URLSearchParams(prev);
+      sp.set('search', q);
+      sp.set('page', '1'); 
+      return sp;
+    });
   }
 
   function onLimitChange(newLimit: number) {
-    searchParams.set('limit', String(newLimit));
-    searchParams.set('page', '1'); 
-    setSearchParams(searchParams);
+    setSearchParams(prev => {
+      const sp = new URLSearchParams(prev);
+      sp.set('limit', String(newLimit));
+      sp.set('page', '1'); 
+      return sp;
+    });
   }
 
   function onToggleSort() {
-    const [field, dir] = sort.split(':');
-    const newDir = dir === 'asc' ? 'desc' : 'asc';
-    searchParams.set('sort', `${field}:${newDir}`);
-    setSearchParams(searchParams);
+    setSearchParams(prev => {
+      const sp = new URLSearchParams(prev);
+      const current = sp.get('sort') ?? 'createdAt:desc';
+      const [, dir = 'desc'] = current.split(':');
+      const newDir = dir.toLowerCase() === 'asc' ? 'desc' : 'asc';
+      sp.set('sort', `createdAt:${newDir}`);
+      sp.set('page', '1');
+      return sp;
+    });
   }
 
 

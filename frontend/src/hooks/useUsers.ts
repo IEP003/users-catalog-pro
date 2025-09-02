@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData, type UseQueryOptions } from "@tanstack/react-query";
 import { api } from "../api/users";
 import type { User } from "../types/user";
 
@@ -32,12 +32,16 @@ export function useUsers({ page, limit, search, sort }: ListParams) {
   });
 }
 
-export function useUser(id?: string | number) {
+export function useUser(
+  id?: string | number | null,
+  options?: Omit<UseQueryOptions<User>, 'queryKey' | 'queryFn'>
+) {
   return useQuery({
     queryKey: ['user', String(id)],
     queryFn: () => api.get(`/users/${id}`).then(r => r.data as User),
-    enabled: !!id,               // ← запрос выполнится только если id передан
-    staleTime: 10000,            // (необязательно) 10 сек. считаем кэш свежим
+    enabled: !!id,
+    staleTime: 10000,
+    ...options,
   });
 }
 
