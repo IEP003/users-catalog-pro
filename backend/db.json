@@ -2579,7 +2579,7 @@
       "id": "u-09342dd8be",
       "name": "Oleg Singh",
       "email": "oleg.singh@mail.net",
-      "active": false,
+      "active": true,
       "createdAt": "2025-02-14T04:44:00Z",
       "role": "user",
       "department": "Logistics",

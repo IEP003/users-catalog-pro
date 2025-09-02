@@ -22,19 +22,27 @@ export default function UsersPage() {
     enabled: !!openUserId
    });
 
+   const [searchInput, setSearchInput] = React.useState(search);
+
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearchParams(prev => {
+        console.log('Updating search param to:', searchInput);
+        const sp = new URLSearchParams(prev);
+        if (searchInput) sp.set('search', searchInput);
+        else sp.delete('search');
+        sp.set('page', '1');
+        return sp;
+      });
+    }, 400);
+
+    return () => clearTimeout(handler);
+  }, [searchInput]);
+
   function goToPage(p: number) {
     setSearchParams(prev => {
       const sp = new URLSearchParams(prev);
       sp.set('page', String(p));
-      return sp;
-    });
-  }
-
-  function onSearch(q: string) {
-    setSearchParams(prev => {
-      const sp = new URLSearchParams(prev);
-      sp.set('search', q);
-      sp.set('page', '1'); 
       return sp;
     });
   }
@@ -66,11 +74,9 @@ export default function UsersPage() {
       <h1 className="text-2xl mb-4">Users Catalog Pro</h1>
       <div className="flex items-center gap-4 mb-4">
         <input
-          defaultValue={search}
+          value={searchInput}
+          onChange={e => setSearchInput(e.target.value)}
           placeholder="Search name, email, city, department"
-          onKeyDown={e => {
-            if (e.key === 'Enter') onSearch((e.target as HTMLInputElement).value);
-          }}
           className="border rounded px-2 py-1"
         />
         <select
